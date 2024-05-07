@@ -1,4 +1,4 @@
-name = "catts-thegraph-proxy"
+name = "catts-thegraph-query-proxy"
 main = "build/worker/shim.mjs"
 compatibility_date = "2023-12-01"
 

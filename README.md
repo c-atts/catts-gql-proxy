@@ -1,4 +1,4 @@
-# catts-thegraph-proxy
+# catts-thegraph-query-proxy
 
 Runs a Cloudflare Worker that proxies requests to the [The graph](https://thegraph.com) API. The worker is written in Rust, compiled to WebAssembly, and deployed to Cloudflare's [edge infrastructure](https://www.cloudflare.com/network/).
 

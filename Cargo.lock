@@ -71,17 +71,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a2bd12c1caf447e69cd4528f47f94d203fd2582878ecb9e9465484c4148a8223"
 
 [[package]]
-name = "catts-thegraph-proxy"
-version = "0.0.1"
-dependencies = [
- "http 1.1.0",
- "lazy_static",
- "serde_json",
- "url",
- "worker",
-]
-
-[[package]]
 name = "cc"
 version = "1.0.90"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -543,6 +532,17 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "thegraph-query-proxy"
+version = "0.0.1"
+dependencies = [
+ "http 1.1.0",
+ "lazy_static",
+ "serde_json",
+ "url",
+ "worker",
 ]
 
 [[package]]
