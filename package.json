@@ -1,5 +1,5 @@
 {
-  "name": "catts-thegraph-proxy",
+  "name": "thegraph-query-proxy",
   "description": "Proxy graphql queries to The Graph API.",
   "version": "0.0.1",
   "private": true,

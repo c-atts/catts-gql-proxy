@@ -33,7 +33,7 @@ npm run dev
 Set the environment variable using:
 
 ```bash
-wrangler secret put THEGRAPH_API_KEY
+npx wrangler secret put THEGRAPH_API_KEY
 ```
 
 ### 2. Deploy
