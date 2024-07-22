@@ -18,7 +18,7 @@ pub async fn handle_graphql_request(
     mut req: Request,
     ctx: RouteContext<()>,
 ) -> worker::Result<Response> {
-    let _ = match ctx.param("cache_key") {
+    match ctx.param("cache_key") {
         Some(_) => (),
         None => return Response::error("Parameter 'cache_key' is missing", 400),
     };
@@ -31,10 +31,10 @@ pub async fn handle_graphql_request(
     }
 
     let headers = req.headers();
-    let query_url = match headers.get("x-thegraph-query-url") {
+    let query_url = match headers.get("x-gql-query-url") {
         Ok(url) => match url {
             Some(url) => url,
-            None => return Response::error("Header 'x-thegraph-query-url' is missing", 400),
+            None => return Response::error("Header 'x-gql-query-url' is missing", 400),
         },
         Err(err) => return Response::error(err.to_string(), 400),
     };
@@ -61,31 +61,38 @@ pub async fn handle_graphql_request(
         Ok(mut response) => {
             let cloned_response = response.cloned()?;
             c.put(url.as_str(), cloned_response).await?;
-            return Ok(response);
+            Ok(response)
         }
-        Err(e) => return Response::error(format!("Error fetching data: {}", e), 500),
+        Err(e) => Response::error(format!("Error fetching data: {}", e), 500),
     }
 }
 
 fn process_query_url(url: &str, ctx: &RouteContext<()>) -> Result<String> {
     let mut url = Url::parse(url)?;
 
-    // Only allow requests to thegraph.com
-    if let Some(domain) = url.domain() {
-        if !domain.ends_with("thegraph.com") {
-            return Err("Invalid domain".into());
+    let path = match url.domain() {
+        Some(domain) => {
+            if domain.ends_with("thegraph.com") {
+                process_the_graph_path(url.path(), ctx)
+            } else {
+                Ok(url.path().to_string())
+            }
         }
-    }
+        None => return Err("Invalid domain".into()),
+    }?;
 
+    url.set_path(&path);
+
+    // Return the modified URL as a String
+    Ok(url.to_string())
+}
+
+fn process_the_graph_path(path: &str, ctx: &RouteContext<()>) -> Result<String> {
     // Set this secret using `wrangler secret put THEGRAPH_API_KEY`
     let api_key = match ctx.env.secret("THEGRAPH_API_KEY") {
         Ok(key) => key,
         Err(_) => return Err("THEGRAPH_API_KEY secret is missing".into()),
     };
 
-    let path = url.path().replace("[api-key]", &api_key.to_string());
-    url.set_path(&path);
-
-    // Return the modified URL as a String
-    Ok(url.to_string())
+    Ok(path.replace("[api-key]", &api_key.to_string()))
 }
