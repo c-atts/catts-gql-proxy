@@ -1,7 +1,7 @@
 {
-  "name": "thegraph-query-proxy",
-  "description": "Proxy graphql queries to The Graph API.",
-  "version": "0.0.1",
+  "name": "catts-gql-proxy",
+  "description": "Proxy C–ATTS recipe GraphQL queries",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "deploy": "npx wrangler deploy",
