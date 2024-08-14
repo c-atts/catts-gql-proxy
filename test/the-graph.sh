@@ -10,7 +10,10 @@ payload='{
   "variables": { "id": "0x534631bcf33bdb069fb20a93d2fdb9e4d4dd42cf" }
 }'
 
-curl -X POST "http://localhost:8787/cachekey123" \
-     -H "x-thegraph-query-url: $query_url" \
+# Generate a semi-random cache key
+random_cache_key="cachekey_$(date +%s)_$RANDOM"
+
+curl -X POST "http://localhost:8787/$random_cache_key" \
+     -H "x-gql-query-url: $query_url" \
      -H "Content-Type: application/json" \
      -d "$payload"
