@@ -18,7 +18,6 @@ The worker is configured using the following environment variables:
 query_url='https://gateway-arbitrum.network.thegraph.com/api/[api-key]/subgraphs/id/GyijYxW9yiSRcEd5u2gfquSvneQKi5QuvU3WZgFyfFSn'
 
 payload='{
-  "operationName": "Delegate",
   "query": "query Delegate($id: ID!) { delegate(id: $id ) { numberVotes } }",
   "variables": { "id": "0x534631bcf33bdb069fb20a93d2fdb9e4d4dd42cf" }
 }'
@@ -44,7 +43,6 @@ Making requests to the EAS GraphQL endpoints does not require an API key.
 query_url='https://optimism.easscan.org/graphql'
 
 payload='{
-  "operationName": "PassportQuery",
   "query": "query PassportQuery($where: AttestationWhereInput, $take: Int) { attestations(where: $where, take: $take) { decodedDataJson } }",
   "variables": {
     "where": {

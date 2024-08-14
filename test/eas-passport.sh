@@ -5,7 +5,6 @@
 query_url='https://optimism.easscan.org/graphql'
 
 payload='{
-  "operationName": "PassportQuery",
   "query": "query PassportQuery($where: AttestationWhereInput, $take: Int) { attestations(where: $where, take: $take) { decodedDataJson } }",
   "variables": {
     "where": {

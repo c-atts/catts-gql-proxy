@@ -85,23 +85,21 @@ pub async fn handle_graphql_request(
 }
 
 fn process_query_url(url: &str, ctx: &RouteContext<()>) -> Result<String> {
-    let mut url = Url::parse(url)?;
+    let parsed_url = Url::parse(url)?;
 
-    let path = match url.domain() {
+    let url = match parsed_url.domain() {
         Some(domain) => {
             if domain.ends_with("thegraph.com") {
-                process_the_graph_path(url.path(), ctx)
+                process_the_graph_path(url, ctx)
             } else {
-                Ok(url.path().to_string())
+                return Ok(url.to_string());
             }
         }
         None => return Err("Invalid domain".into()),
     }?;
 
-    url.set_path(&path);
-
     // Return the modified URL as a String
-    Ok(url.to_string())
+    Ok(url)
 }
 
 fn process_the_graph_path(path: &str, ctx: &RouteContext<()>) -> Result<String> {
@@ -111,5 +109,5 @@ fn process_the_graph_path(path: &str, ctx: &RouteContext<()>) -> Result<String> 
         Err(_) => return Err("THEGRAPH_API_KEY secret is missing".into()),
     };
 
-    Ok(path.replace("[api-key]", &api_key.to_string()))
+    Ok(path.replace("{api-key}", &api_key.to_string()))
 }
