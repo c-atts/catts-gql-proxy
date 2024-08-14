@@ -4,6 +4,17 @@ use worker::*;
 pub async fn main(req: Request, env: Env, _ctx: worker::Context) -> worker::Result<Response> {
     let router = Router::new();
     router
+        .options("/*path", |_req, _ctx| {
+            let mut headers = Headers::new();
+            headers.append("Access-Control-Allow-Origin", "*")?;
+            headers.append("Access-Control-Allow-Methods", "GET, POST, OPTIONS")?;
+            headers.append(
+                "Access-Control-Allow-Headers",
+                "Content-Type, x-gql-query-url",
+            )?;
+            headers.append("Access-Control-Max-Age", "600")?; // 10 minutes
+            Ok(Response::empty()?.with_headers(headers))
+        })
         .get_async("/:cache_key", |req, ctx| async move {
             handle_graphql_request(req, ctx).await
         })
@@ -27,7 +38,9 @@ pub async fn handle_graphql_request(
     let c = Cache::default();
     let cached = c.get(url.as_str(), false).await?;
     if let Some(response) = cached {
-        return Ok(response);
+        let mut headers = Headers::new();
+        headers.append("Access-Control-Allow-Origin", "*")?;
+        return Ok(response.with_headers(headers));
     }
 
     let headers = req.headers();
@@ -59,9 +72,13 @@ pub async fn handle_graphql_request(
 
     match response {
         Ok(mut response) => {
+            let mut headers = Headers::new();
+            headers.append("Access-Control-Allow-Origin", "*")?;
+            headers.append("max-age", "600")?; // 10 minutes
             let cloned_response = response.cloned()?;
-            c.put(url.as_str(), cloned_response).await?;
-            Ok(response)
+            c.put(url.as_str(), cloned_response.with_headers(headers.clone()))
+                .await?;
+            Ok(response.with_headers(headers))
         }
         Err(e) => Response::error(format!("Error fetching data: {}", e), 500),
     }
