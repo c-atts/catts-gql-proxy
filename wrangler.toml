@@ -1,9 +1,25 @@
-name = "catts-gql-proxy"
+name = "catts-query-proxy"
 main = "build/worker/shim.mjs"
 compatibility_date = "2023-12-01"
+
+[[durable_objects.bindings]]
+name = "CATTS-QUERY-PROXY"
+class_name = "ProxyRequestDurableObject"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["ProxyRequestDurableObject"]
 
 [build]
 command = "cargo install -q worker-build && worker-build --release"
 
 [env.dev]
 build = { command = "cargo install -q worker-build && worker-build --dev" }
+
+[[env.dev.durable_objects.bindings]]
+name = "CATTS-QUERY-PROXY"
+class_name = "ProxyRequestDurableObject"
+
+[[env.dev.migrations]]
+tag = "v1"
+new_classes = ["ProxyRequestDurableObject"]

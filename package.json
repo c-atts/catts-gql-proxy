@@ -1,13 +1,13 @@
 {
-  "name": "catts-gql-proxy",
-  "description": "Proxy C–ATTS recipe GraphQL queries",
-  "version": "0.0.2",
+  "name": "catts-query-proxy",
+  "description": "Proxy C–ATTS recipe queries",
+  "version": "0.0.3",
   "private": true,
   "scripts": {
     "deploy": "npx wrangler deploy",
     "dev": "npx wrangler dev --env dev"
   },
   "devDependencies": {
-    "wrangler": "^3.53.1"
+    "wrangler": "^3.72.0"
   }
 }
