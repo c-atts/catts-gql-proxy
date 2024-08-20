@@ -13,7 +13,6 @@ wasm-opt = false
 crate-type = ["cdylib"]
 
 [dependencies]
-anyhow = "1.0.86"
 futures-timer = "3.0.3"
 http = "1.1.0"
 jsonpath-rust = "0.7.0"
