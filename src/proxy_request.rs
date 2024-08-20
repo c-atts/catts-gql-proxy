@@ -1,9 +1,7 @@
 use futures_timer::Delay;
 use serde::{Deserialize, Serialize};
-use serde_json::{json, Value};
-use serde_wasm_bindgen::to_value;
+use serde_json::{json, to_string, Value};
 use std::time::Duration;
-use wasm_bindgen::JsValue;
 use worker::*;
 
 use crate::{filter::filter_response_data, header::create_headers, url::create_url};
@@ -47,14 +45,13 @@ impl ProxyRequestDurableObject {
             serde_json::from_str(&request_body).map_err(|e| e.to_string())?;
         let proxy_headers = create_headers(&recipe_request, &self.env)?;
         let proxy_url = create_url(&recipe_request, &self.env);
-
         let mut init = RequestInit::new();
         init.with_headers(proxy_headers);
 
         if let Some(body) = recipe_request.body {
             init.with_method(Method::Post);
-            let body: JsValue = to_value(&body).unwrap();
-            init.with_body(Some(body));
+            let body = to_string(&body).map_err(|e| e.to_string())?;
+            init.with_body(Some(body.into()));
         } else {
             init.with_method(Method::Get);
         }
