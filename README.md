@@ -1,12 +1,12 @@
 # catts-query-proxy
 
-Runs a Cloudflare Worker that proxies C–ATTS recipe queries from the IC smart contract canister (IPv6) to API endpoints running on IPv4. The worker is written in Rust, compiled to WebAssembly, and deployed to Cloudflare's [edge infrastructure](https://www.cloudflare.com/network/). Requests are cached for 10 minutes to avoid overloading the GraphQL endpoints with the many number of requests coming from the IC canister smart contracts.
+Runs a Cloudflare Worker that proxies C–ATTS recipe queries from the IC smart contract canister (IPv6) to API endpoints running on IPv4.
 
 ## Run locally
 
 ### 1. Configure
 
-The worker supports adding API keys when proxying requests. Built in support for The Graph and Moralis APIs is provided.
+The worker supports injecting API keys to proxied requests. Built in support for The Graph and Moralis APIs is provided.
 
 To configure the worker to use an API key, add the following environment variables to a `.dev.vars` file in the root of the project:
 
@@ -18,8 +18,8 @@ MORALIS_API_KEY=<API_KEY>
 ### 2. Run
 
 ```bash
-npm i
-npm run dev
+pnpm i
+pnpm run dev
 ```
 
 ## Deploy to Cloudflare
@@ -38,7 +38,7 @@ npx wrangler secret put MORALIS_API_KEY
 ### 2. Deploy
 
 ```bash
-npm run deploy
+pnpm run deploy
 ```
 
 ## Usage

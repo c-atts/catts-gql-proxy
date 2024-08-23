@@ -5,9 +5,15 @@
   "private": true,
   "scripts": {
     "deploy": "npx wrangler deploy",
-    "dev": "npx wrangler dev --env dev"
+    "dev": "npx wrangler dev"
+  },
+  "dependencies": {
+    "jsonpath": "^1.1.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240821.1",
+    "@types/jsonpath": "^0.2.4",
+    "typescript": "^5.0.4",
     "wrangler": "^3.72.0"
   }
 }
