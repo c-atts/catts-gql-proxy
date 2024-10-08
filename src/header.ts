@@ -6,12 +6,21 @@ function headerAdderMoralis(headers: Headers, vars: EnvVars) {
   headers.set("X-API-Key", vars.MORALIS_API_KEY);
 }
 
+function headerAdderDune(headers: Headers, vars: EnvVars) {
+  headers.set("X-Dune-API-Key", vars.DUNE_API_KEY);
+}
+
 const HEADER_ADDERS: { regex: string; headerAdder: HeaderAdder }[] = [
   {
     regex: "^https://([a-zA-Z0-9-]+\\.)*moralis\\.io",
     headerAdder: headerAdderMoralis,
   },
+  {
+    regex: "^https://api\\.dune\\.com",
+    headerAdder: headerAdderDune,
+  },
 ];
+
 
 export function createHeaders(proxyRequest: ProxyRequest, vars: EnvVars) {
   const headers = new Headers();

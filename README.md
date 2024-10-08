@@ -6,13 +6,14 @@ Runs a Cloudflare Worker that proxies C–ATTS recipe queries from the IC smart 
 
 ### 1. Configure
 
-The worker supports injecting API keys to proxied requests. Built in support for The Graph and Moralis APIs is provided.
+The worker supports injecting API keys to proxied requests. Built in support for The Graph, Moralis and Dune APIs is provided.
 
 To configure the worker to use an API key, add the following environment variables to a `.dev.vars` file in the root of the project:
 
 ```bash
 THEGRAPH_API_KEY=<API_KEY>
 MORALIS_API_KEY=<API_KEY>
+DUNE_API_KEY=<API_KEY>
 ```
 
 ### 2. Run
@@ -33,6 +34,7 @@ Set the environment variable using:
 ```bash
 npx wrangler secret put THEGRAPH_API_KEY
 npx wrangler secret put MORALIS_API_KEY
+npx wrangler secret put DUNE_API_KEY
 ```
 
 ### 2. Deploy

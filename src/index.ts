@@ -6,6 +6,7 @@ import * as jsonPath from "jsonpath";
 export type EnvVars = {
   THEGRAPH_API_KEY: string;
   MORALIS_API_KEY: string;
+  DUNE_API_KEY: string;
 };
 
 type Env = {
@@ -43,6 +44,7 @@ export class ProxyRequestDurableObject extends DurableObject {
     this.envVars = {
       THEGRAPH_API_KEY: env.THEGRAPH_API_KEY,
       MORALIS_API_KEY: env.MORALIS_API_KEY,
+      DUNE_API_KEY: env.DUNE_API_KEY,
     };
   }
 
